@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #4CAF50;
+        }
+
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 22px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .skills p {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ resume.name }}'s Resume</h1>
+
+        <div class="section">
+            <h2>Personal Details</h2>
+            <p><strong>Email:</strong> {{ resume.email }}</p>
+            <p><strong>Phone Number:</strong> {{ resume.phone_number }}</p>
+            <p><strong>Address:</strong> {{ resume.address }}</p>
+        </div>
+
+        <div class="section">
+            <h2>Work Experience</h2>
+            {% for experience in resume.work_experience.all %}
+                <p><strong>{{ experience.job_title }}</strong> at <strong>{{ experience.company_name }}</strong></p>
+                <p>{{ experience.start_date }} - {{ experience.end_date }}</p>
+                <p>{{ experience.descriptions }}</p>
+            {% empty %}
+                <p>No work experience added.</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Education</h2>
+            {% for edu in resume.education.all %}
+                <p><strong>{{ edu.degree }}</strong> from <strong>{{ edu.institution_name }}</strong></p>
+                <p>{{ edu.start_date }} - {{ edu.end_date }}</p>
+                <p>{{ edu.description }}</p>
+            {% empty %}
+                <p>No education details added.</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Skills</h2>
+            {% for skill in resume.skills.all %}
+                <p><strong>{{ skill.skill_name }}</strong> ({{ skill.proficiency }})</p>
+            {% empty %}
+                <p>No skills added.</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Hobbies</h2>
+            {% for hobby in resume.hobbies.all %}
+                <p><strong>{{ hobby.hobby_name }}</strong></p>
+            {% empty %}
+                <p>No hobbies added.</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Languages</h2>
+            {% for language in resume.languages.all %}
+                <p><strong>{{ language.language_name }}</strong> ({{ language.proficiency }})</p>
+            {% empty %}
+                <p>No languages added.</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>GitHub Profile</h2>
+            {% for git in resume.github_profiles.all %}
+            <p>GitHub: <a href="{{ git.github_link }}" target="_blank">{{ git.github_link }}</a></p>
+            {% empty %}
+            <p>No GitHub profile added.</p> 
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+</html>

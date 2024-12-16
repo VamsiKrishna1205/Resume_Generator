@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            margin: 5px 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .action-links {
+            margin-top: 10px;
+        }
+
+        .action-links a {
+            margin-right: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 14px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #a71d2a;
+        }
+
+        .divider {
+            height: 2px;
+            background-color: #007bff;
+            margin: 20px 0;
+        }
+
+        .github-link {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ resume.name }}'s Resume</h1>
+
+        <h2>Personal Details</h2>
+        <p>Email: {{ resume.email }}</p>
+        <p>Phone Number: {{ resume.phone_number }}</p>
+        <p>Address: {{ resume.address }}</p>
+        <a href="{% url 'edit_personal_details' resume.id %}">Edit Personal Details</a>
+
+        <div class="divider"></div>
+
+        <h2>Work Experience</h2>
+        {% for experience in resume.work_experience.all %}
+            <div>
+                <p>{{ experience.job_title }} at {{ experience.company_name }} ({{ experience.start_date }} - {{ experience.end_date }})</p>
+                <p>{{ experience.descriptions }}</p>
+                <div class="action-links">
+                    <a href="{% url 'edit_experience' experience.id %}">Edit</a> |
+                    <a href="{% url 'delete_experience' experience.id %}">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No work experience added yet.</p>
+        {% endfor %}
+        <a href="{% url 'add_experience' resume.id %}" class="btn">Add Work Experience</a>
+
+        <div class="divider"></div>
+
+        <h2>Education</h2>
+        {% for edu in resume.education.all %}
+            <div>
+                <p>{{ edu.degree }} from {{ edu.institution_name }} ({{ edu.start_date }} - {{ edu.end_date }})</p>
+                <p>{{ edu.description }}</p>
+                <div class="action-links">
+                    <a href="{% url 'edit_education' edu.id %}">Edit</a> |
+                    <a href="{% url 'delete_education' edu.id %}">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No education details added yet.</p>
+        {% endfor %}
+        <a href="{% url 'add_education' resume.id %}" class="btn">Add Education</a>
+
+        <div class="divider"></div>
+
+        <h2>Skills</h2>
+        {% for skill in resume.skills.all %}
+            <div>
+                <p>{{ skill.skill_name }} - Proficiency: {{ skill.proficiency }}</p>
+                <div class="action-links">
+                    <a href="{% url 'edit_skill' skill.id %}">Edit</a> |
+                    <a href="{% url 'delete_skill' skill.id %}">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No skills added yet.</p>
+        {% endfor %}
+        <a href="{% url 'add_skill' resume.id %}" class="btn">Add Skill</a>
+
+        <div class="divider"></div>
+
+        <h2>Hobbies</h2>
+        {% for hobby in resume.hobbies.all %}
+            <div>
+                <p>{{ hobby.hobby_name }}</p>
+                <div class="action-links">
+                    <a href="{% url 'edit_hobby' hobby.id %}">Edit</a> |
+                    <a href="{% url 'delete_hobby' hobby.id %}">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No hobbies added yet.</p>
+        {% endfor %}
+        <a href="{% url 'add_hobby' resume.id %}" class="btn">Add Hobby</a>
+
+        <div class="divider"></div>
+
+        <h2>Languages</h2>
+        {% for language in resume.languages.all %}
+            <div>
+                <p>{{ language.language_name }} - Proficiency: {{ language.proficiency }}</p>
+                <div class="action-links">
+                    <a href="{% url 'edit_language' language.id %}">Edit</a> |
+                    <a href="{% url 'delete_language' language.id %}">Delete</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No languages added yet.</p>
+        {% endfor %}
+        <a href="{% url 'add_language' resume.id %}" class="btn">Add Language</a>
+
+        <div class="divider"></div>
+
+        <h2>GitHub Profile</h2>
+        {% for git in resume.github_profiles.all %}
+            <p>GitHub: <a href="{{ git.github_link }}" target="_blank">{{ git.github_link }}</a></p>
+            <div class="action-links">
+                <a href="{% url 'edit_github_profile' git.id %}">Edit</a> |
+                <a href="{% url 'delete_github_profile' git.id %}">Delete</a>
+            </div>
+        {% empty %}
+            <p>No GitHub profile added.</p> 
+        {% endfor %}
+        <a href="{% url 'add_github_profile' resume.id %}" class="btn">Add GitHub Profile</a>
+
+        <div class="divider"></div>
+
+        <form action="{% url 'send_resume_email' resume_id=resume.id %}" method="post">
+            {% csrf_token %}
+            <input type="email" name="recipient_email" placeholder="Enter recipient email" required>
+            <input type="hidden" name="resume_id" value="{{ resume.id }}">
+            <button type="submit">Send to Email</button>
+        </form>
+
+        <a href="{% url 'dashboard' %}" class="btn">Dashboard</a>
+        <a href="{% url 'view_resumes' %}" class="btn"> view Resumes</a>
+        <a href="{% url 'download_resume' resume.id %}" class="btn">Download PDF</a>
+        <a href="{% url 'delete_resume' resume.id %}" class="btn btn-danger">Delete Resume</a>
+    </div>
+</body>
+</html>

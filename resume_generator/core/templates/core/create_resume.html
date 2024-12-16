@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Resume</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            width: auto;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        
+        .add-btn:hover {
+            background-color: #218838;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input, textarea, select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #007bff;
+            text-align: center;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .messages {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .messages ul {
+            list-style: none;
+        }
+
+        .messages li {
+            padding: 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Your Resume</h1>
+
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                        <li style="color: {{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Personal Details Form -->
+            <h2>Personal Details</h2>
+            {{ resume_form.as_p }}
+
+            <!-- Work Experience Form -->
+            <h2>Work Experience</h2>
+            {{ work_experience_form.as_p }}
+            <div class="add-btn" onclick="addWorkExperience()">Add More Work Experience</div>
+
+            <!-- Education Form -->
+            <h2>Education</h2>
+            {{ education_form.as_p }}
+            <div class="add-btn" onclick="addEducation()">Add More Education</div>
+
+            <!-- Skills Form -->
+            <h2>Skills</h2>
+            {{ skill_form.as_p }}
+            <div class="add-btn" onclick="addSkill()">Add More Skills</div>
+
+            <h2>Hobbies</h2>
+            {{ hobby_form.as_p }}
+            <button type="submit" class="add-btn">Add Hobby</button>
+
+
+            <h2>Languages</h2>
+            {{ language_form.as_p }}
+            <button type="submit" class="add-btn">Add Language</button>
+
+
+            <h2>GitHub Profile</h2>
+            {{ github_profile_form.as_p }}
+            <button type="submit" class="add-btn">Add GitHub Profile</button>
+            <br>
+
+
+            <button type="submit">Save Resume</button>
+        </form>
+
+        <a href="{% url 'dashboard' %}" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html>
